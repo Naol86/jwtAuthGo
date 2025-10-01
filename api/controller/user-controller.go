@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -18,7 +19,8 @@ func (uc *UserController) Signin(c *gin.Context) {
 	var user domain.UserSigninRequest
 	var response domain.UserResponse
 	if err := c.ShouldBind(&user); err != nil {
-		response.Message = "Invalid request"
+		fmt.Println(err.Error(), " - error at binding")
+		response.Message = err.Error()
 		response.Success = false
 		c.JSON(http.StatusBadRequest, response)
 		return
@@ -54,4 +56,28 @@ func (uc *UserController) Signin(c *gin.Context) {
 	response.Data = userData
 	c.JSON(http.StatusOK, response)
 
+}
+
+func (uc *UserController) SignUp(c *gin.Context) {
+	var user domain.UserSignupRequest
+	var response domain.UserResponse
+	if err := c.ShouldBind(&user); err != nil {
+		response.Message = "Invalid request"
+		response.Success = false
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	userData, err := uc.UserUseCase.Signup(c.Request.Context(), user)
+	if err != nil {
+		response.Message = err.Error()
+		response.Success = false
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response.Message = "user signed up successfully"
+	response.Success = true
+	response.Data = userData
+	c.JSON(http.StatusOK, response)
 }

@@ -14,14 +14,14 @@ type User struct {
 }
 
 type UserSignupRequest struct {
-	Name     string `json:"name" validate:"required,min=2,max=100"`
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=6"`
+	Name     string `json:"name" validate:"required,min=2,max=100" binding:"required"`
+	Email    string `json:"email" validate:"required,email" binding:"required"`
+	Password string `json:"password" validate:"required,min=6" binding:"required"`
 }
 
 type UserSigninRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required,min=6"`
+	Email    string `json:"email" validate:"required,email" binding:"required"`
+	Password string `json:"password" validate:"required,min=6" binding:"required"`
 }
 
 type UserResponse struct {

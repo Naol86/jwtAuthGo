@@ -17,7 +17,6 @@ func NewDatabaseConfig(env *Env) *gorm.DB {
 		env.DBPort,
 		env.DBName,
 	)
-	fmt.Println("Connecting to database with DSN:", dsn) // Debugging line
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
